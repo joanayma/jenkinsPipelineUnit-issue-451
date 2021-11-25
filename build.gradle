@@ -1,0 +1,60 @@
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+
+repositories {
+  maven { url 'https://repo.jenkins-ci.org/releases/' }
+  mavenCentral()
+  jcenter()
+}
+
+sourceSets {
+  main {
+    groovy {
+      srcDirs = ['src', 'vars']
+    }
+    resources {
+      srcDirs = ['resources']
+    }
+  }
+  test {
+    groovy {
+      srcDirs = ['test']
+    }
+  }
+}
+
+dependencies {
+  implementation(
+   'org.codehaus.groovy:groovy-all:2.5.13',
+   'org.jenkins-ci.main:jenkins-core:2.190',
+   'com.cloudbees:groovy-cps:1.32',
+   'org.jenkins-ci.plugins.workflow:workflow-cps:2.87@jar',
+   'org.jenkins-ci.plugins.workflow:workflow-api:2.41@jar',
+   'org.jenkins-ci.plugins.workflow:workflow-job:2.40@jar',
+   'org.jenkins-ci.plugins.workflow:workflow-step-api:2.23@jar',
+   'org.jenkins-ci.plugins.workflow:workflow-support:3.7@jar',
+   'org.jenkins-ci.plugins:docker-workflow:1.25@jar',
+   'org.jenkins-ci.plugins:docker-commons:1.17@jar',
+   'org.jenkins-ci.plugins:aws-credentials:1.24',
+   'org.jenkins-ci.plugins.workflow:workflow-job:2.11',
+   'org.jenkins-ci.plugins.workflow:workflow-aggregator:2.5',
+   'org.jenkins-ci.plugins.workflow:workflow-cps:2.46',
+   'org.jenkins-ci.plugins:pipeline-utility-steps:2.10.0',
+   'org.jenkins-ci.plugins:job-dsl-core:1.77',
+   'de.taimos:pipeline-aws:1.43',
+  )
+
+  testImplementation(
+   'com.lesfurets:jenkins-pipeline-unit:1.12',
+   'junit:junit:4.13',
+  )
+}
+
+jacocoTestReport {
+  reports {
+    xml.enabled true
+  }
+}
+
